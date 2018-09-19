@@ -404,14 +404,14 @@
             cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
             cosPMinusSinP = cosP - sinP;
         if (padding) {
-          tl.x -= cosPMinusSinP;
-          tl.y -= cosPSinP;
+          tl.x -= cosPMinusSinP + 10;
+          tl.y -= cosPSinP + 10;
           tr.x += cosPSinP;
           tr.y -= cosPMinusSinP;
           bl.x -= cosPSinP;
           bl.y += cosPMinusSinP;
-          br.x += cosPMinusSinP;
-          br.y += cosPSinP;
+          br.x += cosPMinusSinP + 15;
+          br.y += cosPSinP + 15;
         }
         var ml  = new fabric.Point((tl.x + bl.x) / 2, (tl.y + bl.y) / 2),
             mt  = new fabric.Point((tr.x + tl.x) / 2, (tr.y + tl.y) / 2),
