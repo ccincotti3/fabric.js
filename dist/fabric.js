@@ -14221,11 +14221,14 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       if (this.actionIsDisabled(corner, target, e)) {
         return this.notAllowedCursor;
       }
-      else if (corner in cursorOffset) {
-        return this._getRotatedCornerCursor(corner, target, e);
-      }
       else if (corner === 'mtr' && target.hasRotatingPoint) {
         return this.rotationCursor;
+      }
+      else if (corner == 'tl') {
+        return 'pointer';
+      }
+      else if (corner in cursorOffset) {
+        return this._getRotatedCornerCursor(corner, target, e);
       }
       else {
         return this.defaultCursor;
@@ -18183,7 +18186,18 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
 
 (function() {
+  function preload(imgSrcs) {
+    return imgSrcs.map(function(src) {
+      var img = new Image();
+      img.src = src;
+      return img;
+    });
+  }
 
+  var cornerControlImages = preload([
+    '/images/x_button.png',
+    '/images/scale_arrow.png'
+  ]);
   var degreesToRadians = fabric.util.degreesToRadians;
 
   fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prototype */ {
@@ -18489,27 +18503,54 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      * @private
      */
     _drawControl: function(control, ctx, methodName, left, top, styleOverride) {
-      styleOverride = styleOverride || {};
-      if (!this.isControlVisible(control)) {
-        return;
+      var styleOverride = styleOverride || {};
+
+      if (this.isControlVisible(control)) {
+        /* isVML ||*/ this.transparentCorners ||
+      ctx.clearRect(left, top, sizeX, sizeY);
+
+        var SelectedIconImage = new Image();
+        var lx = '';
+        var ly = '';
+        ly = control.substr(0, 1);
+        lx = control.substr(1, 1);
+
+        control = ly + lx;
+        switch (control) {
+          case 'br':
+            SelectedIconImage.src = cornerControlImages[1].src;
+            break;
+          case 'tl':
+            SelectedIconImage.src = cornerControlImages[0].src;
+            break;
+          case 'mt':
+            break;
+          case 'bl':
+            break;
+          case 'tr':
+            break;
+          case 'mb':
+            break;
+          case 'ml':
+            break;
+          case 'mr':
+            break;
+          default:
+            ctx[methodName](left, top, sizeX, sizeY);
+            break;
+        }
+
+        var sizeX = 25;
+        var sizeY = 25;
+        if (control == 'tl') {
+          ctx.drawImage(SelectedIconImage, left - 10, top - 10, sizeX, sizeY);
+        }
+
+        if (control == 'br') {
+          ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
+        }
       }
-      var size = this.cornerSize, stroke = !this.transparentCorners && this.cornerStrokeColor;
-      switch (styleOverride.cornerStyle || this.cornerStyle) {
-        case 'circle':
-          ctx.beginPath();
-          ctx.arc(left + size / 2, top + size / 2, size / 2, 0, 2 * Math.PI, false);
-          ctx[methodName]();
-          if (stroke) {
-            ctx.stroke();
-          }
-          break;
-        default:
-          this.transparentCorners || ctx.clearRect(left, top, size, size);
-          ctx[methodName + 'Rect'](left, top, size, size);
-          if (stroke) {
-            ctx.strokeRect(left, top, size, size);
-          }
-      }
+
     },
 
     /**

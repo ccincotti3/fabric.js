@@ -936,11 +936,14 @@
       if (this.actionIsDisabled(corner, target, e)) {
         return this.notAllowedCursor;
       }
-      else if (corner in cursorOffset) {
-        return this._getRotatedCornerCursor(corner, target, e);
-      }
       else if (corner === 'mtr' && target.hasRotatingPoint) {
         return this.rotationCursor;
+      }
+      else if (corner == 'tl') {
+        return 'pointer';
+      }
+      else if (corner in cursorOffset) {
+        return this._getRotatedCornerCursor(corner, target, e);
       }
       else {
         return this.defaultCursor;
