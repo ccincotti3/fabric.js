@@ -647,7 +647,6 @@
       if (!corner) {
         return 'drag';
       }
-
       switch (corner) {
         case 'mtr':
           return 'rotate';
@@ -657,6 +656,8 @@
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
+        case 'tr':
+          return 'delete';
         default:
           return 'scale';
       }

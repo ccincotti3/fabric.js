@@ -12232,7 +12232,6 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       if (!corner) {
         return 'drag';
       }
-
       switch (corner) {
         case 'mtr':
           return 'rotate';
@@ -12242,6 +12241,8 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
+        case 'tr':
+          return 'delete';
         default:
           return 'scale';
       }
@@ -13835,7 +13836,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       this.freeDrawingBrush.onMouseUp();
       this._handleEvent(e, 'up');
     },
-
+    _deleteObject: function(target) {
+      return this.remove(target);
+    },
     /**
      * Method that defines the actions when mouse is clicked on canvas.
      * The method inits the currentTransform parameters and renders all the
@@ -13862,6 +13865,9 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         }
         return;
       }
+      if (target && target.__corner === 'tl') {
+        return this._deleteObject(target);
+      }
 
       if (this.isDrawingMode) {
         this._onMouseDownInDrawingMode(e);
@@ -13887,7 +13893,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       }
 
       if (this.selection && (!target ||
-        (!target.selectable && !target.isEditing && target !== this._activeObject))) {
+    (!target.selectable && !target.isEditing && target !== this._activeObject))) {
         this._groupSelector = {
           ex: pointer.x,
           ey: pointer.y,

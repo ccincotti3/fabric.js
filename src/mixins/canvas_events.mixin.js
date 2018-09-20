@@ -550,7 +550,9 @@
       this.freeDrawingBrush.onMouseUp();
       this._handleEvent(e, 'up');
     },
-
+    _deleteObject: function(target) {
+      return this.remove(target);
+    },
     /**
      * Method that defines the actions when mouse is clicked on canvas.
      * The method inits the currentTransform parameters and renders all the
@@ -577,6 +579,9 @@
         }
         return;
       }
+      if (target && target.__corner === 'tl') {
+        return this._deleteObject(target);
+      }
 
       if (this.isDrawingMode) {
         this._onMouseDownInDrawingMode(e);
@@ -602,7 +607,7 @@
       }
 
       if (this.selection && (!target ||
-        (!target.selectable && !target.isEditing && target !== this._activeObject))) {
+    (!target.selectable && !target.isEditing && target !== this._activeObject))) {
         this._groupSelector = {
           ex: pointer.x,
           ey: pointer.y,
