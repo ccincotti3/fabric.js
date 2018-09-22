@@ -713,6 +713,7 @@
      * @return {Object}.zoomY zoomY zoom value to unscale the canvas before drawing cache
      */
     _getCacheCanvasDimensions: function() {
+      console.log('_getCacheCanvasDimensions');
       var objectScale = this.getTotalObjectScaling(),
           dim = this._getNonTransformedDimensions(),
           zoomX = objectScale.scaleX,
@@ -738,6 +739,7 @@
      * @return {Boolean} true if the canvas has been resized
      */
     _updateCacheCanvas: function() {
+      console.log('_updateCacheCanvas');
       var targetCanvas = this.canvas;
       if (this.noScaleCache && targetCanvas && targetCanvas._currentTransform) {
         var target = targetCanvas._currentTransform.target,
@@ -755,6 +757,8 @@
           zoomChanged = this.zoomX !== zoomX || this.zoomY !== zoomY,
           shouldRedraw = dimensionsChanged || zoomChanged,
           additionalWidth = 0, additionalHeight = 0, shouldResizeCanvas = false;
+
+      console.log(target, zoomChanged, dimensionsChanged, shouldRedraw, zoomX, this.zoomX);
       if (dimensionsChanged) {
         var canvasWidth = this._cacheCanvas.width,
             canvasHeight = this._cacheCanvas.height,
@@ -762,6 +766,7 @@
             sizeShrinking = (width < canvasWidth * 0.9 || height < canvasHeight * 0.9) &&
               canvasWidth > minCacheSize && canvasHeight > minCacheSize;
         shouldResizeCanvas = sizeGrowing || sizeShrinking;
+        console.log(shouldResizeCanvas);
         if (sizeGrowing && !dims.capped && (width > minCacheSize || height > minCacheSize)) {
           additionalWidth = width * 0.1;
           additionalHeight = height * 0.1;
@@ -780,10 +785,10 @@
         drawingHeight = dims.y * zoomY / 2;
         this.cacheTranslationX = Math.round(canvas.width / 2 - drawingWidth) + drawingWidth;
         this.cacheTranslationY = Math.round(canvas.height / 2 - drawingHeight) + drawingHeight;
-        this.cacheWidth = width;
-        this.cacheHeight = height;
+        //this.cacheWidth = width;
+        //this.cacheHeight = height;
         this._cacheContext.translate(this.cacheTranslationX, this.cacheTranslationY);
-        this._cacheContext.scale(zoomX, zoomY);
+        //        this._cacheContext.scale(zoomX, zoomY);
         this.zoomX = zoomX;
         this.zoomY = zoomY;
         return true;
@@ -921,6 +926,7 @@
      * @return {Object} object with scaleX and scaleY properties
      */
     getObjectScaling: function() {
+      console.log('scaled');
       var scaleX = this.scaleX, scaleY = this.scaleY;
       if (this.group) {
         var scaling = this.group.getObjectScaling();
@@ -935,6 +941,7 @@
      * @return {Object} object with scaleX and scaleY properties
      */
     getTotalObjectScaling: function() {
+      console.log('getTotalObjectScaling');
       var scale = this.getObjectScaling(), scaleX = scale.scaleX, scaleY = scale.scaleY;
       if (this.canvas) {
         var zoom = this.canvas.getZoom();
