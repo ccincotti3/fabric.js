@@ -648,6 +648,7 @@
         return 'drag';
       }
       switch (corner) {
+        /*
         case 'mtr':
           return 'rotate';
         case 'ml':
@@ -656,10 +657,13 @@
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
+          */
+        case 'br':
+          return 'scale';
         case 'tl':
           return 'delete';
         default:
-          return 'scale';
+          return 'drag';
       }
     },
 
