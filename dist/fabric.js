@@ -15684,7 +15684,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @return {Object}.zoomY zoomY zoom value to unscale the canvas before drawing cache
      */
     _getCacheCanvasDimensions: function() {
-      console.log('_getCacheCanvasDimensions');
       var objectScale = this.getTotalObjectScaling(),
           dim = this._getNonTransformedDimensions(),
           zoomX = objectScale.scaleX,
@@ -15756,7 +15755,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
         this.cacheWidth = width;
         this.cacheHeight = height;
         this._cacheContext.translate(this.cacheTranslationX, this.cacheTranslationY);
-        //        this._cacheContext.scale(zoomX, zoomY);
+        this._cacheContext.scale(zoomX, zoomY);
         this.zoomX = zoomX;
         this.zoomY = zoomY;
         return true;
@@ -15894,7 +15893,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @return {Object} object with scaleX and scaleY properties
      */
     getObjectScaling: function() {
-      console.log('scaled');
       var scaleX = this.scaleX, scaleY = this.scaleY;
       if (this.group) {
         var scaling = this.group.getObjectScaling();
@@ -15909,7 +15907,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @return {Object} object with scaleX and scaleY properties
      */
     getTotalObjectScaling: function() {
-      console.log('getTotalObjectScaling');
       var scale = this.getObjectScaling(), scaleX = scale.scaleX, scaleY = scale.scaleY;
       if (this.canvas) {
         var zoom = this.canvas.getZoom();
@@ -22347,7 +22344,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
     },
 
     applyResizeFilters: function() {
-      console.log('applyResizeFilters');
       var filter = this.resizeFilter,
           minimumScale = this.minimumScaleTrigger,
           objectScale = this.getTotalObjectScaling(),
@@ -22468,7 +22464,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      * @private, needed to check if image needs resize
      */
     _needsResize: function() {
-      console.log('_needsResize');
       var scale = this.getTotalObjectScaling();
       return (scale.scaleX !== this._lastScaleX || scale.scaleY !== this._lastScaleY);
     },

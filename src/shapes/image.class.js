@@ -380,7 +380,6 @@
     },
 
     applyResizeFilters: function() {
-      console.log('applyResizeFilters');
       var filter = this.resizeFilter,
           minimumScale = this.minimumScaleTrigger,
           objectScale = this.getTotalObjectScaling(),
@@ -501,7 +500,6 @@
      * @private, needed to check if image needs resize
      */
     _needsResize: function() {
-      console.log('_needsResize');
       var scale = this.getTotalObjectScaling();
       return (scale.scaleX !== this._lastScaleX || scale.scaleY !== this._lastScaleY);
     },
