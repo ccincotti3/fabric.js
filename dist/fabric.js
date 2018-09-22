@@ -12241,7 +12241,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
-        case 'tr':
+        case 'tl':
           return 'delete';
         default:
           return 'scale';

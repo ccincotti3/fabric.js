@@ -656,7 +656,7 @@
         case 'mt':
         case 'mb':
           return e[this.altActionKey] ? 'skewX' : 'scaleY';
-        case 'tr':
+        case 'tl':
           return 'delete';
         default:
           return 'scale';
