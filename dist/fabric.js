@@ -14929,7 +14929,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       if (lockScalingX && lockScalingY) {
         return;
       }
-
       target._scaling = true;
 
       var constraintPosition = target.translateToOriginPoint(target.getCenterPoint(), t.originX, t.originY),
@@ -15689,8 +15688,8 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           dim = this._getNonTransformedDimensions(),
           zoomX = objectScale.scaleX,
           zoomY = objectScale.scaleY,
-          width = dim.x * zoomX,
-          height = dim.y * zoomY;
+          width = dim.x,
+          height = dim.y;
       return {
         // for sure this ALIASING_LIMIT is slightly crating problem
         // in situation in wich the cache canvas gets an upper limit
@@ -15729,7 +15728,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           shouldRedraw = dimensionsChanged || zoomChanged,
           additionalWidth = 0, additionalHeight = 0, shouldResizeCanvas = false;
 
-      console.log(target, zoomChanged, dimensionsChanged, shouldRedraw, zoomX, this.zoomX);
+      //console.log(target, zoomChanged, dimensionsChanged, shouldRedraw, zoomX, this.zoomX);
       if (dimensionsChanged) {
         var canvasWidth = this._cacheCanvas.width,
             canvasHeight = this._cacheCanvas.height,
@@ -15737,7 +15736,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
             sizeShrinking = (width < canvasWidth * 0.9 || height < canvasHeight * 0.9) &&
               canvasWidth > minCacheSize && canvasHeight > minCacheSize;
         shouldResizeCanvas = sizeGrowing || sizeShrinking;
-        console.log(shouldResizeCanvas);
         if (sizeGrowing && !dims.capped && (width > minCacheSize || height > minCacheSize)) {
           additionalWidth = width * 0.1;
           additionalHeight = height * 0.1;
@@ -15756,8 +15754,8 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
         drawingHeight = dims.y * zoomY / 2;
         this.cacheTranslationX = Math.round(canvas.width / 2 - drawingWidth) + drawingWidth;
         this.cacheTranslationY = Math.round(canvas.height / 2 - drawingHeight) + drawingHeight;
-        //this.cacheWidth = width;
-        //this.cacheHeight = height;
+        this.cacheWidth = width;
+        this.cacheHeight = height;
         this._cacheContext.translate(this.cacheTranslationX, this.cacheTranslationY);
         //        this._cacheContext.scale(zoomX, zoomY);
         this.zoomX = zoomX;
@@ -17748,7 +17746,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       }
       var dimensions = this._getNonTransformedDimensions();
       if (skewX === 0 && skewY === 0) {
-        return { x: dimensions.x, y: dimensions.y};
+        return { x: dimensions.x * this.scaleX, y: dimensions.y * this.scaleY };
       }
       var dimX = dimensions.x / 2, dimY = dimensions.y / 2,
           points = [

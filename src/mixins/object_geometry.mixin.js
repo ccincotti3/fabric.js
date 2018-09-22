@@ -590,7 +590,7 @@
       }
       var dimensions = this._getNonTransformedDimensions();
       if (skewX === 0 && skewY === 0) {
-        return { x: dimensions.x, y: dimensions.y};
+        return { x: dimensions.x * this.scaleX, y: dimensions.y * this.scaleY };
       }
       var dimX = dimensions.x / 2, dimY = dimensions.y / 2,
           points = [
