@@ -14929,6 +14929,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       if (lockScalingX && lockScalingY) {
         return;
       }
+
       target._scaling = true;
 
       var constraintPosition = target.translateToOriginPoint(target.getCenterPoint(), t.originX, t.originY),
@@ -15688,8 +15689,8 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           dim = this._getNonTransformedDimensions(),
           zoomX = objectScale.scaleX,
           zoomY = objectScale.scaleY,
-          width = dim.x,
-          height = dim.y;
+          width = dim.x * zoomX,
+          height = dim.y * zoomY;
       return {
         // for sure this ALIASING_LIMIT is slightly crating problem
         // in situation in wich the cache canvas gets an upper limit
@@ -15709,7 +15710,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @return {Boolean} true if the canvas has been resized
      */
     _updateCacheCanvas: function() {
-      console.log('_updateCacheCanvas');
       var targetCanvas = this.canvas;
       if (this.noScaleCache && targetCanvas && targetCanvas._currentTransform) {
         var target = targetCanvas._currentTransform.target,
@@ -15728,7 +15728,6 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           shouldRedraw = dimensionsChanged || zoomChanged,
           additionalWidth = 0, additionalHeight = 0, shouldResizeCanvas = false;
 
-      //console.log(target, zoomChanged, dimensionsChanged, shouldRedraw, zoomX, this.zoomX);
       if (dimensionsChanged) {
         var canvasWidth = this._cacheCanvas.width,
             canvasHeight = this._cacheCanvas.height,
