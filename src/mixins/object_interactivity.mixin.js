@@ -264,7 +264,7 @@
 
       // top-right
       this._drawControl('tr', ctx, methodName,
-        left + width,
+        left - 10 + width,
         top, styleOverride);
 
       // bottom-left
