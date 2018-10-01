@@ -12229,6 +12229,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
      * @private
      */
     _getActionFromCorner: function(target, corner, e) {
+
       if (!corner) {
         return 'drag';
       }
@@ -13841,7 +13842,16 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       this._handleEvent(e, 'up');
     },
     _deleteObject: function(target) {
-      return this.remove(target);
+      if (this.groupMode) {
+        var thisContext = this;
+        target._objects.forEach(function(o) {
+          return thisContext.remove(o);
+        });
+        return this.discardActiveObject();
+      }
+      else {
+        return this.remove(target);
+      }
     },
     /**
      * Method that defines the actions when mouse is clicked on canvas.
@@ -15388,7 +15398,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
      * @type Boolean
      * @default
      */
-    hasRotatingPoint:         true,
+    hasRotatingPoint:         false,
 
     /**
      * Offset for object's controlling rotating point (when enabled via `hasRotatingPoint`)
@@ -16308,7 +16318,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       }
       if (styleOverride.forActiveSelection) {
         ctx.rotate(degreesToRadians(options.angle));
-        drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
+        //drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
       }
       else {
         ctx.rotate(degreesToRadians(this.angle));
@@ -17546,24 +17556,25 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           finalMatrix = absolute ? startMatrix : multiplyMatrices(vpt, startMatrix),
           dim = this._getTransformedDimensions(),
           w = dim.x / 2, h = dim.y / 2,
-          tl = transformPoint({ x: -w, y: -h }, finalMatrix),
+          /* Pup edit: add offset to buttons  */
+          tl = transformPoint({ x: -w - 10, y: -h - 10 }, finalMatrix),
           tr = transformPoint({ x: w, y: -h }, finalMatrix),
           bl = transformPoint({ x: -w, y: h }, finalMatrix),
-          br = transformPoint({ x: w, y: h }, finalMatrix);
+          br = transformPoint({ x: w + 15, y: h + 15 }, finalMatrix);
       if (!absolute) {
         var padding = this.padding, angle = degreesToRadians(this.angle),
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),
             cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP,
             cosPMinusSinP = cosP - sinP;
         if (padding) {
-          tl.x -= cosPMinusSinP + 10;
-          tl.y -= cosPSinP + 10;
+          tl.x -= cosPMinusSinP;
+          tl.y -= cosPSinP;
           tr.x += cosPSinP;
           tr.y -= cosPMinusSinP;
           bl.x -= cosPSinP;
           bl.y += cosPMinusSinP;
-          br.x += cosPMinusSinP + 15;
-          br.y += cosPSinP + 15;
+          br.x += cosPMinusSinP;
+          br.y += cosPSinP;
         }
         var ml  = new fabric.Point((tl.x + bl.x) / 2, (tl.y + bl.y) / 2),
             mt  = new fabric.Point((tr.x + tl.x) / 2, (tr.y + tl.y) / 2),
@@ -18440,7 +18451,9 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      * @chainable
      */
     drawControls: function(ctx, styleOverride) {
-      styleOverride = styleOverride || {};
+      styleOverride = styleOverride || {
+        hasRotatingPoint: false
+      };
       var wh = this._calculateCurrentDimensions(),
           width = wh.x,
           height = wh.y,
@@ -18555,14 +18568,13 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
             ctx[methodName](left, top, sizeX, sizeY);
             break;
         }
-
         var sizeX = 25;
         var sizeY = 25;
-        if (control == 'tl') {
+        if (control === 'tl') {
           ctx.drawImage(SelectedIconImage, left - 10, top - 10, sizeX, sizeY);
         }
 
-        if (control == 'br') {
+        if (control === 'br') {
           ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
         }
       }
@@ -21341,7 +21353,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       else {
         this._updateObjectsACoords();
       }
-
       this.setCoords();
     },
 
@@ -21827,7 +21838,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      * @default
      */
     type: 'activeSelection',
-
+    cornerSize: 26,
+    cornerStyle: 'circle',
     /**
      * Constructor
      * @param {Object} objects ActiveSelection objects
@@ -21836,6 +21848,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      */
     initialize: function(objects, options) {
       options = options || {};
+      console.log(options, objects);
       this._objects = objects || [];
       for (var i = this._objects.length; i--; ) {
         this._objects[i].group = this;
@@ -22330,7 +22343,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
       fabric.util.loadImage(src, function(img) {
         this.setElement(img, options);
         this._setWidthHeight();
-        callback(this);
+        callback(img);
       }, this, options && options.crossOrigin);
       return this;
     },

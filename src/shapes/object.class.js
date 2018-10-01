@@ -417,7 +417,7 @@
      * @type Boolean
      * @default
      */
-    hasRotatingPoint:         true,
+    hasRotatingPoint:         false,
 
     /**
      * Offset for object's controlling rotating point (when enabled via `hasRotatingPoint`)
@@ -1337,7 +1337,8 @@
       }
       if (styleOverride.forActiveSelection) {
         ctx.rotate(degreesToRadians(options.angle));
-        drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
+        /* For Pups: Don't draw borders when group selected */
+        //drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
       }
       else {
         ctx.rotate(degreesToRadians(this.angle));

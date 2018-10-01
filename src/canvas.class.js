@@ -644,6 +644,7 @@
      * @private
      */
     _getActionFromCorner: function(target, corner, e) {
+
       if (!corner) {
         return 'drag';
       }

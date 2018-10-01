@@ -237,7 +237,9 @@
      * @chainable
      */
     drawControls: function(ctx, styleOverride) {
-      styleOverride = styleOverride || {};
+      styleOverride = styleOverride || {
+        hasRotatingPoint: false
+      };
       var wh = this._calculateCurrentDimensions(),
           width = wh.x,
           height = wh.y,
@@ -352,14 +354,13 @@
             ctx[methodName](left, top, sizeX, sizeY);
             break;
         }
-
         var sizeX = 25;
         var sizeY = 25;
-        if (control == 'tl') {
+        if (control === 'tl') {
           ctx.drawImage(SelectedIconImage, left - 10, top - 10, sizeX, sizeY);
         }
 
-        if (control == 'br') {
+        if (control === 'br') {
           ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
         }
       }

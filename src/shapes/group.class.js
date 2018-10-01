@@ -98,7 +98,6 @@
       else {
         this._updateObjectsACoords();
       }
-
       this.setCoords();
     },
 

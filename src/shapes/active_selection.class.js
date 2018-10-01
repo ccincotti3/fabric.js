@@ -23,7 +23,8 @@
      * @default
      */
     type: 'activeSelection',
-
+    cornerSize: 26,
+    cornerStyle: 'circle',
     /**
      * Constructor
      * @param {Object} objects ActiveSelection objects
@@ -32,6 +33,7 @@
      */
     initialize: function(objects, options) {
       options = options || {};
+      console.log(options, objects);
       this._objects = objects || [];
       for (var i = this._objects.length; i--; ) {
         this._objects[i].group = this;

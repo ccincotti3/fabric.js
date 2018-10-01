@@ -551,7 +551,16 @@
       this._handleEvent(e, 'up');
     },
     _deleteObject: function(target) {
-      return this.remove(target);
+      if (this.groupMode) {
+        var thisContext = this;
+        target._objects.forEach(function(o) {
+          return thisContext.remove(o);
+        });
+        return this.discardActiveObject();
+      }
+      else {
+        return this.remove(target);
+      }
     },
     /**
      * Method that defines the actions when mouse is clicked on canvas.
