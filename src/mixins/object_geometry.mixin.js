@@ -396,7 +396,7 @@
           w = dim.x / 2, h = dim.y / 2,
           /* Pup edit: add offset to buttons  */
           tl = transformPoint({ x: -w - 10, y: -h - 10 }, finalMatrix),
-          tr = transformPoint({ x: w, y: -h }, finalMatrix),
+          tr = transformPoint({ x: w + 15, y: -h - 10 }, finalMatrix),
           bl = transformPoint({ x: -w, y: h }, finalMatrix),
           br = transformPoint({ x: w + 15, y: h + 15 }, finalMatrix);
       if (!absolute) {

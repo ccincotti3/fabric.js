@@ -12248,6 +12248,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
           return 'scale';
         case 'tl':
           return 'delete';
+        case 'tr':
+          if (window.matchMedia('(max-width: 1199.98px)').matches) {
+            return 'edit';
+          }
+          return 'drag';
         default:
           return 'drag';
       }
@@ -13882,7 +13887,11 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       if (target && target.__corner === 'tl') {
         return this._deleteObject(target);
       }
-
+      if (target && target.__corner === 'tr') {
+        if (window.matchMedia('(max-width: 1199.98px)').matches) {
+          return this._fire('touch:selection', {target: target});
+        }
+      }
       if (this.isDrawingMode) {
         this._onMouseDownInDrawingMode(e);
         return;
@@ -16318,6 +16327,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
       }
       if (styleOverride.forActiveSelection) {
         ctx.rotate(degreesToRadians(options.angle));
+        /* For Pups: Don't draw borders when group selected */
         //drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
       }
       else {
@@ -17558,7 +17568,7 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           w = dim.x / 2, h = dim.y / 2,
           /* Pup edit: add offset to buttons  */
           tl = transformPoint({ x: -w - 10, y: -h - 10 }, finalMatrix),
-          tr = transformPoint({ x: w, y: -h }, finalMatrix),
+          tr = transformPoint({ x: w + 15, y: -h - 10 }, finalMatrix),
           bl = transformPoint({ x: -w, y: h }, finalMatrix),
           br = transformPoint({ x: w + 15, y: h + 15 }, finalMatrix);
       if (!absolute) {
@@ -18223,7 +18233,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
   var cornerControlImages = preload([
     '/images/x_button.png',
-    '/images/scale_arrow.png'
+    '/images/scale_arrow.png',
+    '/images/edit_button.png',
   ]);
   var degreesToRadians = fabric.util.degreesToRadians;
 
@@ -18557,6 +18568,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
           case 'bl':
             break;
           case 'tr':
+            SelectedIconImage.src = cornerControlImages[2].src;
             break;
           case 'mb':
             break;
@@ -18576,6 +18588,12 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
         if (control === 'br') {
           ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
+        }
+
+        if (control === 'tr') {
+          if (window.matchMedia('(max-width: 1199.98px)').matches) {
+            ctx.drawImage(SelectedIconImage, left + 17, top - 12, sizeX + 5, sizeY + 5);
+          }
         }
       }
 

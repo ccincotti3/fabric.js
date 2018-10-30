@@ -663,6 +663,11 @@
           return 'scale';
         case 'tl':
           return 'delete';
+        case 'tr':
+          if (window.matchMedia('(max-width: 1199.98px)').matches) {
+            return 'edit';
+          }
+          return 'drag';
         default:
           return 'drag';
       }

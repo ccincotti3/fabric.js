@@ -591,7 +591,11 @@
       if (target && target.__corner === 'tl') {
         return this._deleteObject(target);
       }
-
+      if (target && target.__corner === 'tr') {
+        if (window.matchMedia('(max-width: 1199.98px)').matches) {
+          return this._fire('touch:selection', {target: target});
+        }
+      }
       if (this.isDrawingMode) {
         this._onMouseDownInDrawingMode(e);
         return;
