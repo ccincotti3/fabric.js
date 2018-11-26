@@ -334,17 +334,17 @@
         control = ly + lx;
         switch (control) {
           case 'br':
-            SelectedIconImage.src = cornerControlImages[1].src;
+            SelectedIconImage = cornerControlImages[1];
             break;
           case 'tl':
-            SelectedIconImage.src = cornerControlImages[0].src;
+            SelectedIconImage = cornerControlImages[0];
             break;
           case 'mt':
             break;
           case 'bl':
             break;
           case 'tr':
-            SelectedIconImage.src = cornerControlImages[2].src;
+            SelectedIconImage = cornerControlImages[2];
             break;
           case 'mb':
             break;
