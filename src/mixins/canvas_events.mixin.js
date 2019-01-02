@@ -962,7 +962,7 @@
         return this._getRotatedCornerCursor(corner, target, e);
       }
       */
-      else if (corner === 'tl') {
+      else if (corner === 'tl' || corner === 'tr') {
         return 'pointer';
       }
       else if (corner === 'br') {

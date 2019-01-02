@@ -14258,7 +14258,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
         return this._getRotatedCornerCursor(corner, target, e);
       }
       */
-      else if (corner === 'tl') {
+      else if (corner === 'tl' || corner === 'tr') {
         return 'pointer';
       }
       else if (corner === 'br') {
@@ -18558,17 +18558,17 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         control = ly + lx;
         switch (control) {
           case 'br':
-            SelectedIconImage.src = cornerControlImages[1].src;
+            SelectedIconImage = cornerControlImages[1];
             break;
           case 'tl':
-            SelectedIconImage.src = cornerControlImages[0].src;
+            SelectedIconImage = cornerControlImages[0];
             break;
           case 'mt':
             break;
           case 'bl':
             break;
           case 'tr':
-            SelectedIconImage.src = cornerControlImages[2].src;
+            SelectedIconImage = cornerControlImages[2];
             break;
           case 'mb':
             break;
