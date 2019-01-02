@@ -395,10 +395,10 @@
           dim = this._getTransformedDimensions(),
           w = dim.x / 2, h = dim.y / 2,
           /* Pup edit: add offset to buttons  */
-          tl = transformPoint({ x: -w - 10, y: -h - 10 }, finalMatrix),
-          tr = transformPoint({ x: w + 15, y: -h - 10 }, finalMatrix),
+          tl = transformPoint({ x: -w, y: -h }, finalMatrix),
+          tr = transformPoint({ x: w, y: -h }, finalMatrix),
           bl = transformPoint({ x: -w, y: h }, finalMatrix),
-          br = transformPoint({ x: w + 15, y: h + 15 }, finalMatrix);
+          br = transformPoint({ x: w, y: h }, finalMatrix);
       if (!absolute) {
         var padding = this.padding, angle = degreesToRadians(this.angle),
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),

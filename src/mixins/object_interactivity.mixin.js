@@ -359,16 +359,16 @@
         var sizeX = 25;
         var sizeY = 25;
         if (control === 'tl') {
-          ctx.drawImage(SelectedIconImage, left - 10, top - 10, sizeX, sizeY);
+          ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
 
         if (control === 'br') {
-          ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
+          ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
 
         if (control === 'tr') {
           if (window.matchMedia('(max-width: 1199.98px)').matches) {
-            ctx.drawImage(SelectedIconImage, left + 17, top - 12, sizeX + 5, sizeY + 5);
+            ctx.drawImage(SelectedIconImage, left, top, sizeX + 5, sizeY + 5);
           }
         }
       }

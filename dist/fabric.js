@@ -17567,10 +17567,10 @@ fabric.util.object.extend(fabric.StaticCanvas.prototype, /** @lends fabric.Stati
           dim = this._getTransformedDimensions(),
           w = dim.x / 2, h = dim.y / 2,
           /* Pup edit: add offset to buttons  */
-          tl = transformPoint({ x: -w - 10, y: -h - 10 }, finalMatrix),
-          tr = transformPoint({ x: w + 15, y: -h - 10 }, finalMatrix),
+          tl = transformPoint({ x: -w, y: -h }, finalMatrix),
+          tr = transformPoint({ x: w, y: -h }, finalMatrix),
           bl = transformPoint({ x: -w, y: h }, finalMatrix),
-          br = transformPoint({ x: w + 15, y: h + 15 }, finalMatrix);
+          br = transformPoint({ x: w, y: h }, finalMatrix);
       if (!absolute) {
         var padding = this.padding, angle = degreesToRadians(this.angle),
             cos = fabric.util.cos(angle), sin = fabric.util.sin(angle),
@@ -18583,16 +18583,16 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         var sizeX = 25;
         var sizeY = 25;
         if (control === 'tl') {
-          ctx.drawImage(SelectedIconImage, left - 10, top - 10, sizeX, sizeY);
+          ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
 
         if (control === 'br') {
-          ctx.drawImage(SelectedIconImage, left + 10, top + 10, sizeX, sizeY);
+          ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
 
         if (control === 'tr') {
           if (window.matchMedia('(max-width: 1199.98px)').matches) {
-            ctx.drawImage(SelectedIconImage, left + 17, top - 12, sizeX + 5, sizeY + 5);
+            ctx.drawImage(SelectedIconImage, left, top, sizeX + 5, sizeY + 5);
           }
         }
       }
