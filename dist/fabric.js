@@ -13847,7 +13847,7 @@ fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, /** @lends fab
       this._handleEvent(e, 'up');
     },
     _deleteObject: function(target) {
-      if (this.groupMode) {
+      if (target._objects) {
         var thisContext = this;
         target._objects.forEach(function(o) {
           return thisContext.remove(o);
@@ -18580,8 +18580,8 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
             ctx[methodName](left, top, sizeX, sizeY);
             break;
         }
-        var sizeX = 25;
-        var sizeY = 25;
+        var sizeX = this.cornerSize;
+        var sizeY = this.cornerSize;
         if (control === 'tl') {
           ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
@@ -21866,7 +21866,6 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
      */
     initialize: function(objects, options) {
       options = options || {};
-      console.log(options, objects);
       this._objects = objects || [];
       for (var i = this._objects.length; i--; ) {
         this._objects[i].group = this;

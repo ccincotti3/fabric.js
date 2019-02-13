@@ -551,7 +551,7 @@
       this._handleEvent(e, 'up');
     },
     _deleteObject: function(target) {
-      if (this.groupMode) {
+      if (target._objects) {
         var thisContext = this;
         target._objects.forEach(function(o) {
           return thisContext.remove(o);

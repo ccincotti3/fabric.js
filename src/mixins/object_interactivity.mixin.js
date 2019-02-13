@@ -356,8 +356,8 @@
             ctx[methodName](left, top, sizeX, sizeY);
             break;
         }
-        var sizeX = 25;
-        var sizeY = 25;
+        var sizeX = this.cornerSize;
+        var sizeY = this.cornerSize;
         if (control === 'tl') {
           ctx.drawImage(SelectedIconImage, left, top, sizeX, sizeY);
         }
